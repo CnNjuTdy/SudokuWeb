@@ -15,8 +15,8 @@ public class Block {
 	
 	public Block(int value) {
 		this.value = value;
-		if(value == 0)
-			this.possibleValue = null;
+		if(value != 0)
+			possibleValue = new ArrayList<Integer>();
 		else{
 			possibleValue = new ArrayList<Integer>();
 			for(int i=1;i<10;i++){

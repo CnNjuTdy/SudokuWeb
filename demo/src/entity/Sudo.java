@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 /** 
   * @author: 汤大业 
   * @date: 2016年9月7日 下午8:22:08 
@@ -8,7 +10,7 @@ package entity;
 */
 
 public class Sudo {
-	private Block[][] blockArray = null;
+	private Block[][] blockArray = new Block[9][9];
 	
 	/**
 	 * 根据二维数组构造数独
@@ -22,7 +24,24 @@ public class Sudo {
 		else{
 			for(int i=0;i<9;i++){
 				for(int j=0;j<9;j++){
-					blockArray[i][j].setValue(resource[i][j]); 
+					blockArray[i][j] = new Block(resource[i][j]); 
+				}
+			}
+		}
+	}
+	/**
+	 * 根据字符串构造数独
+	 * @param resource
+	 */
+	public Sudo(String resource){
+		if(resource.length()!=81){
+			System.out.println("warning!");
+			return;
+		}
+		else{
+			for(int i=0;i<9;i++){
+				for(int j=0;j<9;j++){
+					blockArray[i][j] = new Block(Integer.parseInt(resource.substring(i*9+j, i*9+j+1))); 
 				}
 			}
 		}
@@ -34,7 +53,7 @@ public class Sudo {
 	/*
 	 * 约简数独阵列
 	 */
-	public void simplifyBlocks(){
+	public void simplify(){
 		boolean ctn = false;
 		for(int i=0;i<9;i++){
 			for(int j=0;j<9;j++){
@@ -45,7 +64,7 @@ public class Sudo {
 						Block temp = blockArray[i][k];
 						if(k!=j&&temp.getValue()!=0){
 							int index = block.getPossibleValue().indexOf(temp.getValue());
-							if(index>0) block.getPossibleValue().remove(index);
+							if(index>=0) block.getPossibleValue().remove(index);
 						}
 					}
 					//检查竖行并删除
@@ -53,7 +72,7 @@ public class Sudo {
 						Block temp = blockArray[k][j];
 						if(k!=i&&temp.getValue()!=0){
 							int index = block.getPossibleValue().indexOf(temp.getValue());
-							if(index>0) block.getPossibleValue().remove(index);
+							if(index>=0) block.getPossibleValue().remove(index);
 						}
 					}
 					//检查3*3并删除
@@ -64,7 +83,7 @@ public class Sudo {
 							Block temp = blockArray[s][t];
 							if(s!=i&&t!=j&&temp.getValue()!=0){
 								int index = block.getPossibleValue().indexOf(temp.getValue());
-								if(index>0) block.getPossibleValue().remove(index);
+								if(index>=0) block.getPossibleValue().remove(index);
 							}
 						}
 					}
@@ -77,7 +96,47 @@ public class Sudo {
 			}
 		}
 		if(ctn){
-			simplifyBlocks();
+			ctn=false;
+			simplify();
+			
+		}
+	}
+	
+	/**
+	 * 
+	 * @Description:展示数独
+	 * @return:void
+	 * @time:2016年9月8日 下午12:10:26
+	 */
+	public void disply(){
+		for(int i=0;i<9;i++){
+			for(int j=0;j<9;j++){
+				if(j!=8)
+					System.out.print(blockArray[i][j].getValue()+" ");
+				else
+					System.out.println(blockArray[i][j].getValue());
+			}
+		}
+	}
+	/**
+	 * 
+	 * @Description:展示每个位置的可选数字
+	 * @return:void
+	 * @time:2016年9月8日 下午12:32:38
+	 */
+	public void displyPossible(){
+		for(int i=0;i<9;i++){
+			for(int j=0;j<9;j++){
+				ArrayList<Integer> list = blockArray[i][j].getPossibleValue();
+//				if(j!=8)
+//					System.out.print(list.size()+" ");
+//				else
+//					System.out.println(list.size());
+				for(int k=0;k<list.size();k++){
+					System.out.print(list.get(k)+" ");
+				}
+				System.out.println();
+			}
 		}
 	}
 }
