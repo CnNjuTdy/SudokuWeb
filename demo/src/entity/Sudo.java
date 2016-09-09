@@ -128,10 +128,6 @@ public class Sudo {
 		for(int i=0;i<9;i++){
 			for(int j=0;j<9;j++){
 				ArrayList<Integer> list = blockArray[i][j].getPossibleValue();
-//				if(j!=8)
-//					System.out.print(list.size()+" ");
-//				else
-//					System.out.println(list.size());
 				for(int k=0;k<list.size();k++){
 					System.out.print(list.get(k)+" ");
 				}
